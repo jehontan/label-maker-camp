@@ -57,16 +57,48 @@ class Form extends React.Component {
     return (
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
-              <TextField id="input-name" label="Name" variant="standard" fullWidth onChange={this.handleNameChange}/>
+              <TextField 
+                id="input-name" 
+                label="Name" 
+                variant="standard" 
+                fullWidth 
+                onChange={this.handleNameChange}
+              />
             </Grid>
             <Grid item xs={12} md={6}>
-              <TextField id="input-nric" label="NRIC/FIN" variant="standard" fullWidth onChange={this.handleNricChange}/>
+              <TextField 
+                id="input-nric" 
+                label="NRIC/FIN"
+                variant="standard"
+                fullWidth
+                onChange={this.handleNricChange}
+              />
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField id="input-cat-status" label="Cat. Status" variant="standard" fullWidth onChange={this.handleCatStatusChange}/>
+              <TextField 
+                select
+                id="input-cat-status"
+                label="Cat. Status"
+                variant="standard"
+                align="left"
+                fullWidth
+                onChange={this.handleCatStatusChange}
+              >
+                <option key="1" value="1">Cat 1</option>
+                <option key="2A" value="2A">Cat 2A</option>
+                <option key="2A+" value="2A+">Cat 2A+</option>
+                <option key="2B" value="2B">Cat 2B</option>
+                <option key="3" value="3">Cat 3</option>
+              </TextField>
             </Grid>
             <Grid item xs={12} md={4}>
-              <TextField id="input-bed-no" label="Bed Number" variant="standard" fullWidth onChange={this.handleBedNoChange}/>
+              <TextField
+                id="input-bed-no"
+                label="Bed Number"
+                variant="standard"
+                fullWidth
+                onChange={this.handleBedNoChange}
+              />
             </Grid>
             <Grid item xs={12} md={4}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -86,10 +118,22 @@ class Form extends React.Component {
               </MuiPickersUtilsProvider>
             </Grid>
             <Grid item xs={12}>
-              <TextField id="input-allergies" label="Drug Allergies" variant="standard" fullWidth onChange={this.handleAllergiesChange} />
+              <TextField 
+                id="input-allergies" 
+                label="Drug Allergies"
+                variant="standard"
+                fullWidth
+                onChange={this.handleAllergiesChange}
+              />
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" onClick={(event)=>{this.props.onGenerate(this.state)}}>Generate</Button>
+              <Button 
+                variant="contained"
+                color="primary" 
+                onClick={(event)=>{this.props.onGenerate(this.state)}}
+              >
+                Generate
+              </Button>
             </Grid>
           </Grid>
        
