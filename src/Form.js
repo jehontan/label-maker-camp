@@ -14,6 +14,7 @@ class Form extends React.Component {
     this.state = {name: '',
                   nric: '',
                   bed_no: '',
+                  cat_status: '',
                   admission_date: new Date(),
                   allergies: ''
                 };
@@ -21,6 +22,7 @@ class Form extends React.Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleNricChange = this.handleNricChange.bind(this);
     this.handleBedNoChange = this.handleBedNoChange.bind(this);
+    this.handleCatStatusChange = this.handleCatStatusChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleAllergiesChange = this.handleAllergiesChange.bind(this);
   }
@@ -37,6 +39,10 @@ class Form extends React.Component {
 
   handleBedNoChange(event) {
     this.setState({bed_no: event.target.value});
+  }
+
+  handleCatStatusChange(event) {
+    this.setState({cat_status: event.target.value});
   }
 
   handleDateChange(date) {
@@ -56,10 +62,13 @@ class Form extends React.Component {
             <Grid item xs={12} md={6}>
               <TextField id="input-nric" label="NRIC/FIN" variant="standard" fullWidth onChange={this.handleNricChange}/>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
+              <TextField id="input-cat-status" label="Cat. Status" variant="standard" fullWidth onChange={this.handleCatStatusChange}/>
+            </Grid>
+            <Grid item xs={12} md={4}>
               <TextField id="input-bed-no" label="Bed Number" variant="standard" fullWidth onChange={this.handleBedNoChange}/>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   fullWidth

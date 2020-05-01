@@ -19,7 +19,7 @@ class Label extends React.Component {
       ctx.translate(400,0);
       ctx.rotate(-Math.PI/2);
       ctx.textAlign = "center";
-      ctx.fillText("CAT 2A", -180, 0);
+      ctx.fillText("CAT " + p.cat_status, -180, 0);
       ctx.restore();
 
       // Field labels
