@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Label Maker",
+  "name": "Wristband Label Maker",
   "icons": [
     {
       "src": "favicon.ico",
