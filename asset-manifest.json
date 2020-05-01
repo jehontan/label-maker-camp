@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/jehontan/label-maker/static/css/main.d1b05096.chunk.css",
+    "main.js": "/jehontan/label-maker/static/js/main.df1e99ae.chunk.js",
+    "main.js.map": "/jehontan/label-maker/static/js/main.df1e99ae.chunk.js.map",
+    "runtime-main.js": "/jehontan/label-maker/static/js/runtime-main.10b86aad.js",
+    "runtime-main.js.map": "/jehontan/label-maker/static/js/runtime-main.10b86aad.js.map",
+    "static/js/2.96b198e6.chunk.js": "/jehontan/label-maker/static/js/2.96b198e6.chunk.js",
+    "static/js/2.96b198e6.chunk.js.map": "/jehontan/label-maker/static/js/2.96b198e6.chunk.js.map",
+    "index.html": "/jehontan/label-maker/index.html",
+    "precache-manifest.0e02e97bde068626fb3b5b41aabe4dc6.js": "/jehontan/label-maker/precache-manifest.0e02e97bde068626fb3b5b41aabe4dc6.js",
+    "service-worker.js": "/jehontan/label-maker/service-worker.js",
+    "static/css/main.d1b05096.chunk.css.map": "/jehontan/label-maker/static/css/main.d1b05096.chunk.css.map",
+    "static/js/2.96b198e6.chunk.js.LICENSE.txt": "/jehontan/label-maker/static/js/2.96b198e6.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.10b86aad.js",
+    "static/js/2.96b198e6.chunk.js",
+    "static/css/main.d1b05096.chunk.css",
+    "static/js/main.df1e99ae.chunk.js"
+  ]
+}
