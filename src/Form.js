@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
@@ -11,13 +11,6 @@ import {
 class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {name: '',
-                  nric: '',
-                  bed_no: '',
-                  cat_status: '',
-                  admission_date: new Date(),
-                  allergies: ''
-                };
 
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleNricChange = this.handleNricChange.bind(this);
@@ -30,27 +23,27 @@ class Form extends React.Component {
   // Change Handlers
 
   handleNameChange(event) {
-    this.setState({name: event.target.value});
+    this.props.onChange({name: event.target.value});
   }
 
   handleNricChange(event) {
-    this.setState({nric: event.target.value});
+    this.props.onChange({nric: event.target.value});
   }
 
   handleBedNoChange(event) {
-    this.setState({bed_no: event.target.value});
+    this.props.onChange({bed_no: event.target.value});
   }
 
   handleCatStatusChange(event) {
-    this.setState({cat_status: event.target.value});
+    this.props.onChange({cat_status: event.target.value});
   }
 
   handleDateChange(date) {
-    this.setState({admission_date: date});
+    this.props.onChange({admission_date: date});
   }
 
   handleAllergiesChange(event) {
-    this.setState({allergies: event.target.value});
+    this.props.onChange({allergies: event.target.value});
   }
 
   render() {
@@ -77,6 +70,7 @@ class Form extends React.Component {
             <Grid item xs={12} md={4}>
               <TextField 
                 select
+                defaultValue="1"
                 id="input-cat-status"
                 label="Cat. Status"
                 variant="standard"
@@ -84,11 +78,11 @@ class Form extends React.Component {
                 fullWidth
                 onChange={this.handleCatStatusChange}
               >
-                <option key="1" value="1">Cat 1</option>
-                <option key="2A" value="2A">Cat 2A</option>
-                <option key="2A+" value="2A+">Cat 2A+</option>
-                <option key="2B" value="2B">Cat 2B</option>
-                <option key="3" value="3">Cat 3</option>
+                <MenuItem key="1" value="1">Cat 1</MenuItem>
+                <MenuItem key="2A" value="2A">Cat 2A</MenuItem>
+                <MenuItem key="2A+" value="2A+">Cat 2A+</MenuItem>
+                <MenuItem key="2B" value="2B">Cat 2B</MenuItem>
+                <MenuItem key="3" value="3">Cat 3</MenuItem>
               </TextField>
             </Grid>
             <Grid item xs={12} md={4}>
@@ -109,7 +103,7 @@ class Form extends React.Component {
                   format="dd MMM yyyy"
                   id="date-picker-inline"
                   label="Admission Date"
-                  value={this.state.admission_date}
+                  value={this.props.admission_date}
                   onChange={this.handleDateChange}
                   KeyboardButtonProps={{
                     'aria-label': 'change date',
@@ -125,15 +119,6 @@ class Form extends React.Component {
                 fullWidth
                 onChange={this.handleAllergiesChange}
               />
-            </Grid>
-            <Grid item xs={12}>
-              <Button 
-                variant="contained"
-                color="primary" 
-                onClick={(event)=>{this.props.onGenerate(this.state)}}
-              >
-                Generate
-              </Button>
             </Grid>
           </Grid>
        

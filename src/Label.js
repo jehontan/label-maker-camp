@@ -8,10 +8,10 @@ class Label extends React.Component {
   
   render() {
 
-    if (this.props.person) {
+    if (this.props.generate) {
       const canvas = this.props.canvasRef.current;
       const ctx = canvas.getContext("2d");
-      const p = this.props.person;
+      const p = this.props;
 
       // Cat Status
       ctx.save();

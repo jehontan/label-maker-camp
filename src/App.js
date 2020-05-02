@@ -35,18 +35,32 @@ const styles = theme => ({ root: {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.handleFormChange = this.handleFormChange.bind(this);
     this.handleGenerate = this.handleGenerate.bind(this);
     this.handlePrint = this.handlePrint.bind(this);
     this.canvasRef = React.createRef();
+
+    this.state = {
+      generate: false,
+      name: '',
+      nric: '',
+      bed_no: '',
+      cat_status: '',
+      admission_date: Date.now(),
+      allergies: ''
+    };
   }
 
-  handleGenerate(person) {
+  handleFormChange(change) {
+    change.generate=false;
+    this.setState(change);
+  }
+
+  handleGenerate() {
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    this.setState({person: person});
+    this.setState({generate: true});
     this.render();
   }
 
@@ -77,12 +91,35 @@ class App extends React.Component {
       </AppBar>
       <Container className={classes.container} maxWidth="md">
         <Paper className={classes.paper}>
-          <Form classes={this.props} onGenerate={this.handleGenerate} />
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="h5" align="left">
+                Personal Particulars
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Form classes={this.props} onChange={this.handleFormChange} {...this.state} />
+            </Grid>
+            <Grid item xs={12}>
+              <Button 
+                variant="contained"
+                color="primary" 
+                onClick={this.handleGenerate}
+              >
+                Generate
+              </Button>
+            </Grid>
+          </Grid>
         </Paper>
         <Paper className={classes.paper}>
           <Grid container spacing={3}>
-          <Grid item xs={12}>
-              <Label canvasRef={this.canvasRef} labelWidth={252} labelHeight={32} dpmm={12} person={this.state.person}/>
+            <Grid item xs={12}>
+              <Typography variant="h5" align="left">
+                Preview
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Label canvasRef={this.canvasRef} labelWidth={252} labelHeight={32} dpmm={12} {...this.state}/>
             </Grid>
           </Grid>
         </Paper>
