@@ -10,10 +10,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import PrintIcon from '@material-ui/icons/Print';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import Form from './Form'
 import Label from './Label';
+import SettingsDialog from './SettingsDialog';
+
+const config = require('./config.json');
 
 const styles = theme => ({ root: {
                   flexGrow: 1,
@@ -38,16 +43,24 @@ class App extends React.Component {
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleGenerate = this.handleGenerate.bind(this);
     this.handlePrint = this.handlePrint.bind(this);
+    this.handleSettingsToggle = this.handleSettingsToggle.bind(this);
+    this.handleSettingsChanged = this.handleSettingsChanged.bind(this);
     this.canvasRef = React.createRef();
+
+    const savedPrinter = window.localStorage.getItem('printer');
+
+    console.log(config.printers[0]);
 
     this.state = {
       generate: false,
       name: '',
       nric: '',
       bed_no: '',
-      cat_status: '',
+      cat_status: '1',
       admission_date: Date.now(),
-      allergies: ''
+      allergies: '',
+      printer: savedPrinter ? JSON.parse(savedPrinter) : config.printers["B_TD2130N"],
+      settingsOpen: false,
     };
   }
 
@@ -74,6 +87,16 @@ class App extends React.Component {
     a.print(); 
   }
 
+  handleSettingsToggle() {
+    this.setState({settingsOpen: !this.state.settingsOpen});
+  }
+
+  handleSettingsChanged(printer) {
+    window.localStorage.setItem('printer', JSON.stringify(printer));
+    this.setState({printer: printer});
+    console.log(printer);
+  }
+
   render()
   {
     const {classes} = this.props;
@@ -86,7 +109,9 @@ class App extends React.Component {
           <Typography variant="h6" className={classes.title}>
             Label Maker
           </Typography>
+          
           <Button color="inherit" startIcon={<PrintIcon />} onClick={this.handlePrint}>Print</Button>
+          <IconButton color="inherit" onClick={this.handleSettingsToggle}><SettingsIcon/></IconButton>
         </Toolbar>
       </AppBar>
       <Container className={classes.container} maxWidth="md">
@@ -119,12 +144,12 @@ class App extends React.Component {
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Label canvasRef={this.canvasRef} labelWidth={252} labelHeight={32} dpmm={12} {...this.state}/>
+              <Label canvasRef={this.canvasRef} {...this.state}/>
             </Grid>
           </Grid>
         </Paper>
       </Container>
-      
+      <SettingsDialog printer={this.state.printer} printers={config.printers} open={this.state.settingsOpen} onClose={this.handleSettingsToggle} onSave={this.handleSettingsChanged}/>
     </div>
   );}
 }

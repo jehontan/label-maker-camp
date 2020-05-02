@@ -1,0 +1,23 @@
+{
+  "printers": {
+    "B_TD2130N": {
+      "type": "B_TD2130N",
+      "name": "Brother TD2130N",
+      "labelWidth": 252,
+      "labelHeight": 32,
+      "marginTop": 3,
+      "marginBottom": 3,
+      "marginLeft": 36.8,
+      "dpmm": 12
+    },
+    "Z_XXXXX": {
+      "type": "Z_XXXXX",
+      "name": "Zebra XXXXX",
+      "labelWidth": 252,
+      "labelHeight": 32,
+      "marginTop": 5,
+      "marginLeft": 36.8,
+      "dpmm": 12
+    }
+  }
+}

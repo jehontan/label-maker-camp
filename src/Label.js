@@ -5,7 +5,6 @@ import DateFnsAdapter from "@date-io/date-fns";
 const dateFns = new DateFnsAdapter();
 
 class Label extends React.Component {
-  
   render() {
 
     if (this.props.generate) {
@@ -13,38 +12,57 @@ class Label extends React.Component {
       const ctx = canvas.getContext("2d");
       const p = this.props;
 
-      // Cat Status
-      ctx.save();
-      ctx.font = "60px Arial";
-      ctx.translate(400,0);
-      ctx.rotate(-Math.PI/2);
-      ctx.textAlign = "center";
-      ctx.fillText("CAT " + p.cat_status, -180, 0);
-      ctx.restore();
-
-      // Field labels
-      ctx.font = "30px Arial";
-      ctx.fillText("Name:", 500, 60);
-      ctx.fillText("NRIC/FIN:", 500, 120)
-      ctx.fillText("Bed:", 500, 180);
-      ctx.fillText("Admission:", 500, 240);
-      ctx.fillText("Drug Allergy:", 500, 300);
-
-      // Field data
-      ctx.font = "30px Arial";
-      ctx.fillText(p.name, 750, 60);
-      ctx.fillText(p.nric, 750, 120)
-      ctx.fillText(p.bed_no, 750, 180);
-      ctx.fillText(dateFns.format(p.admission_date, "dd MMM yyyy"), 750, 240);
-      ctx.fillText(p.allergies, 750, 300);
+      const printLeftMargin = this.props.printer.dpmm*this.props.printer.marginLeft
+      const printHeight = this.props.printer.dpmm*(this.props.printer.labelHeight-2*this.props.printer.marginTop);
+      // const printWidth = this.props.printer.dpmm*(this.props.printer.labelWidth-this.props.printer.marginLeft);
+      const printPadding = 50;
+      const qrWidth = 25*10;
+      const textSize = 30;
+      const textLineSpace = 20;
+      const textBlockHeight = 4*textSize + 4*textLineSpace;
+      const catTextHeight = 44;
 
       // QR Code
+      ctx.save();
+      ctx.translate(printLeftMargin, 0);
       const qr = qrcode(0,'H');
       qr.addData(p.nric);
       qr.make();
-      ctx.save();
-      ctx.translate(50,50);
+      ctx.translate(printPadding, (printHeight-qrWidth)/2);
       qr.renderTo2dContext(ctx, 10);
+      ctx.restore();
+
+      // Cat Status
+      ctx.save();
+      ctx.translate(printLeftMargin, 0)
+      ctx.font = "bold 60px Arial";
+      let text = "CAT " + p.cat_status;
+      let dim = ctx.measureText(text);
+      ctx.translate(printPadding+qrWidth+60+catTextHeight, printHeight/2);
+      ctx.rotate(-Math.PI/2);
+      ctx.translate(-dim.width/2, 0);
+      ctx.fillText(text, 0, 0);
+      ctx.restore();
+
+      ctx.save();
+      ctx.translate(printLeftMargin+printPadding+qrWidth+60+catTextHeight+50, (printHeight-textBlockHeight)/2);
+
+      // Field labels
+      ctx.font = "bold " + textSize + "px Arial";
+      ctx.fillText("Name:", 0, 0);
+      ctx.fillText("NRIC/FIN:", 0, (textSize+textLineSpace))
+      ctx.fillText("Bed:", 0, 2*(textSize+textLineSpace));
+      ctx.fillText("Admission:", 0, 3*(textSize+textLineSpace));
+      ctx.fillText("Drug Allergy:", 0, 4*(textSize+textLineSpace));
+
+      // Field data
+      ctx.font = "bold "+ textSize +"px Arial";
+      ctx.fillText(p.name, 250, 0);
+      ctx.fillText(p.nric, 250, (textSize+textLineSpace))
+      ctx.fillText(p.bed_no, 250, 2*(textSize+textLineSpace));
+      ctx.fillText(dateFns.format(p.admission_date, "dd MMM yyyy"), 250, 3*(textSize+textLineSpace));
+      ctx.fillText(p.allergies, 250, 4*(textSize+textLineSpace));
+
       ctx.restore();
     }
 
@@ -57,10 +75,14 @@ class Label extends React.Component {
 
     return (
       <div style={divStyle}>
-        <canvas ref={this.props.canvasRef} 
-                id="labelCanvas"
-                width={this.props.dpmm*this.props.labelWidth}
-                height={this.props.dpmm*this.props.labelHeight} />
+        <div style={{width:this.props.printer.dpmm*(this.props.printer.labelWidth), height:this.props.printer.dpmm*(this.props.printer.labelHeight), display: "flex", justifyContent: 'left', alignItems: 'center', border: "solid 1px black"}}>
+          <canvas ref={this.props.canvasRef}
+                  //style={{border: "dashed 1px black"}}
+                  id="labelCanvas"
+                  width={this.props.printer.dpmm*(this.props.printer.labelWidth-this.props.printer.marginLeft)}
+                  height={this.props.printer.dpmm*(this.props.printer.labelHeight-2*this.props.printer.marginTop)}
+          />
+        </div>
       </div>
     )
   }
