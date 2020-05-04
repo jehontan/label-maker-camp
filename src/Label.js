@@ -57,11 +57,11 @@ class Label extends React.Component {
 
       // Field data
       ctx.font = "bold "+ textSize +"px Arial";
-      ctx.fillText(p.name, 250, 0);
-      ctx.fillText(p.nric, 250, (textSize+textLineSpace))
-      ctx.fillText(p.bed_no, 250, 2*(textSize+textLineSpace));
-      ctx.fillText(dateFns.format(p.admission_date, "dd MMM yyyy"), 250, 3*(textSize+textLineSpace));
-      ctx.fillText(p.allergies, 250, 4*(textSize+textLineSpace));
+      ctx.fillText(p.name, 200, 0);
+      ctx.fillText(p.nric, 200, (textSize+textLineSpace))
+      ctx.fillText(p.bed_no, 200, 2*(textSize+textLineSpace));
+      ctx.fillText(dateFns.format(p.admission_date, "dd MMM yyyy"), 200, 3*(textSize+textLineSpace));
+      ctx.fillText(p.allergies, 200, 4*(textSize+textLineSpace));
 
       ctx.restore();
     }
