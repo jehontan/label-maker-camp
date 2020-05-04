@@ -83,8 +83,8 @@ class App extends React.Component {
     console.log(img);
     var a = window.open('', 'Print', 'height=500, width=500'); 
     a.document.write('<img src="'+ img +'"/>');
-    a.document.close(); 
-    a.print(); 
+    a.onload = ()=>a.print();
+    a.document.close();
   }
 
   handleSettingsToggle() {
