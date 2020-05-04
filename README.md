@@ -1,68 +1,27 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Wristband Label Maker PWA
 
-## Available Scripts
+This simple PWA generates wristband labels with QR code to support operations at COVID-19 [Community Care Facilities (CCFs)](https://www.straitstimes.com/singapore/coronavirus-community-care-facilities-for-patients-with-mild-symptoms-will-have-bed) in Singapore.
 
-In the project directory, you can run:
+You can check out the live app [here](https://jehontan.github.io/label-maker).
 
-### `npm start`
+## Problem
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Medical wristbands are used for tagging persons housed in CCFs, however given the immediacy of the CCF operations and the ongoign supply chain challenges label printers and wristband labels used are from a variety of different vendors, each using their own label creation software, templates, drivers and SDKs. A solution was needed to simplify and commonalize the method of label generation and printing.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Solution
 
-### `npm test`
+All the printers used provide a Windows print driver. Generating an image of the label, then using the system print dialog to print was the way to go. 
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Computers used at the CCFs come from a variety of sources, and some may have additional security features that make installation of software difficult. A web app solution allows  distribution methods (internet, zipped static files) that are supported by the different computers, and can also be used on mobile devices if supported by the printer (e.g. via AirPrint, Google Cloud Print).
 
-### `npm run build`
+A simple and intuitive GUI was developed to enable operators to generate and print labels with no training. Print settings can be adjusted for different printers, and the suitable settings for specific printers are pre-populated.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This PWA is also [installable](https://support.google.com/chrome/answer/9658361) on a variety of platforms using Google Chrome. The "native" appearance of the app makes it easier to launch and interact with for uninitiated operators.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+All processing is done offline to protect personal data; web deployment is used only to simplify distribution.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Acknowledgements
 
-### `npm run eject`
+Development was greatly simplified by the use of [Create-React-App](https://github.com/facebook/create-react-app) and [Material UI](https://material-ui.com/).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This app uses [qrcode-generator](https://www.npmjs.com/package/qrcode-generator) to generate QR codes.
