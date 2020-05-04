@@ -6,7 +6,7 @@ You can check out the live app [here](https://jehontan.github.io/label-maker).
 
 ## Problem
 
-Medical wristbands are used for tagging persons housed in CCFs, however given the immediacy of the CCF operations and the ongoign supply chain challenges label printers and wristband labels used are from a variety of different vendors, each using their own label creation software, templates, drivers and SDKs. A solution was needed to simplify and commonalize the method of label generation and printing.
+Medical wristbands are used for tagging persons housed in CCFs, however given the immediacy of the CCF operations and the ongoing supply chain challenges label printers and wristband labels used are from a variety of different vendors, each using their own label creation software, templates, drivers and SDKs. A solution was needed to simplify and commonalize the method of label generation and printing.
 
 ## Solution
 
