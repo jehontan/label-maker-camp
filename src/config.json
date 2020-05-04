@@ -5,18 +5,17 @@
       "name": "Brother TD2130N",
       "labelWidth": 252,
       "labelHeight": 32,
-      "marginTop": 3,
-      "marginBottom": 3,
-      "marginLeft": 36.8,
+      "marginTop": 0,
+      "marginLeft": 34.8,
       "dpmm": 12
     },
-    "Z_XXXXX": {
-      "type": "Z_XXXXX",
-      "name": "Zebra XXXXX",
-      "labelWidth": 252,
-      "labelHeight": 32,
-      "marginTop": 5,
-      "marginLeft": 36.8,
+    "Z_ZD510-HC": {
+      "type": "Z_ZD510-HC",
+      "name": "Zebra ZD510-HC",
+      "labelWidth": 279.4,
+      "labelHeight": 25.4,
+      "marginTop": 0,
+      "marginLeft": 55,
       "dpmm": 12
     }
   }
