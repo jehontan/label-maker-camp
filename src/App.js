@@ -1,11 +1,18 @@
 import React from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
+
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 import './App.css';
 import { withStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -14,11 +21,24 @@ import IconButton from '@material-ui/core/IconButton';
 import PrintIcon from '@material-ui/icons/Print';
 import SettingsIcon from '@material-ui/icons/Settings';
 
-import Form from './Form'
-import Label from './Label';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ControlPointIcon from '@material-ui/icons/ControlPoint';
+import ControlPointDuplicateIcon from '@material-ui/icons/ControlPointDuplicate';
+
+import LabelMaker from './LabelMaker';
+import BulkMaker from './BulkMaker';
 import SettingsDialog from './SettingsDialog';
 
 const config = require('./config.json');
+
+const drawerWidth = 240;
 
 const styles = theme => ({ root: {
                   flexGrow: 1,
@@ -34,57 +54,34 @@ const styles = theme => ({ root: {
                   padding: '20px',
                   textAlign: 'center',
                   color: theme.palette.text.secondary,
-                }
+                },
+                drawer: {
+                  width: drawerWidth,
+                  flexShrink: 0,
+                },
+                drawerPaper: {
+                  width: drawerWidth,
+                },
 });
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.handleFormChange = this.handleFormChange.bind(this);
-    this.handleGenerate = this.handleGenerate.bind(this);
+    
     this.handlePrint = this.handlePrint.bind(this);
+    this.handlePrintDone = this.handlePrintDone.bind(this);
     this.handleSettingsToggle = this.handleSettingsToggle.bind(this);
     this.handleSettingsChanged = this.handleSettingsChanged.bind(this);
-    this.canvasRef = React.createRef();
+    this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
+    this.handleDrawerClose = this.handleDrawerClose.bind(this);
 
     const savedPrinter = window.localStorage.getItem('printer');
 
-    console.log(config.printers[0]);
-
     this.state = {
-      generate: false,
-      name: '',
-      nric: '',
-      bed_no: '',
-      cat_status: '1',
-      admission_date: Date.now(),
-      allergies: '',
       printer: savedPrinter ? JSON.parse(savedPrinter) : config.printers["B_TD2130N"],
       settingsOpen: false,
+      drawerOpen: false,
     };
-  }
-
-  handleFormChange(change) {
-    change.generate=false;
-    this.setState(change);
-  }
-
-  handleGenerate() {
-    const canvas = this.canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    this.setState({generate: true});
-    this.render();
-  }
-
-  handlePrint() {
-    const canvas = this.canvasRef.current;
-    const img = canvas.toDataURL("image/png");
-    console.log(img);
-    var a = window.open('', 'Print', 'height=500, width=500'); 
-    a.document.write('<img src="'+ img +'"/>');
-    a.onload = ()=>a.print();
-    a.document.close();
   }
 
   handleSettingsToggle() {
@@ -97,60 +94,90 @@ class App extends React.Component {
     console.log(printer);
   }
 
+  handleDrawerOpen() {
+    this.setState({drawerOpen: true});
+  }
+
+  handleDrawerClose() {
+    this.setState({drawerOpen: false});
+  }
+
+  handlePrint() {
+    this.setState({print: true});
+  }
+
+  handlePrintDone() {
+    this.setState({print: false});
+  }
+
   render()
   {
     const {classes} = this.props;
     
     return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Label Maker
-          </Typography>
-          
-          <Button color="inherit" startIcon={<PrintIcon />} onClick={this.handlePrint}>Print</Button>
-          <IconButton color="inherit" onClick={this.handleSettingsToggle}><SettingsIcon/></IconButton>
-        </Toolbar>
-      </AppBar>
-      <Container className={classes.container} maxWidth="md">
-        <Paper className={classes.paper}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Typography variant="h5" align="left">
-                Personal Particulars
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Form classes={this.props} onChange={this.handleFormChange} {...this.state} />
-            </Grid>
-            <Grid item xs={12}>
-              <Button 
-                variant="contained"
-                color="primary" 
-                onClick={this.handleGenerate}
-              >
-                Generate
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
-        <Paper className={classes.paper}>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Typography variant="h5" align="left">
-                Preview
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Label canvasRef={this.canvasRef} {...this.state}/>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Container>
-      <SettingsDialog printer={this.state.printer} printers={config.printers} open={this.state.settingsOpen} onClose={this.handleSettingsToggle} onSave={this.handleSettingsChanged}/>
-    </div>
+    <Router>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={this.handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, this.state.drawerOpen && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Label Maker
+            </Typography>
+            <Button color="inherit" startIcon={<PrintIcon />} onClick={this.handlePrint}>Print</Button>
+            <IconButton color="inherit" onClick={this.handleSettingsToggle}><SettingsIcon/></IconButton>
+          </Toolbar>
+        </AppBar>
+
+        <Drawer
+          className={classes.drawer}
+          anchor="left"
+          open={this.state.drawerOpen}
+          onClose={this.handleDrawerClose}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={this.handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          <ListItem button component={Link} to="/">
+            <ListItemIcon><ControlPointIcon /></ListItemIcon>
+            <ListItemText primary="Single" />
+          </ListItem>
+          <ListItem button component={Link} to="/bulk">
+            <ListItemIcon><ControlPointDuplicateIcon /></ListItemIcon>
+            <ListItemText primary="Bulk" />
+          </ListItem>
+        </List>
+      </Drawer>
+
+
+        <Container className={classes.container} maxWidth="md">
+          <Switch>
+            <Route path='/bulk'>
+              <BulkMaker onPrint={this.handlePrintDone} {...this.state}/>
+            </Route>
+            <Route path='/'>
+              <LabelMaker onPrint={this.handlePrintDone} {...this.state} />
+            </Route>
+          </Switch>
+        </Container>
+        <SettingsDialog printer={this.state.printer} printers={config.printers} open={this.state.settingsOpen} onClose={this.handleSettingsToggle} onSave={this.handleSettingsChanged}/>
+      </div>
+    </Router>
   );}
 }
 
