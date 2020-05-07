@@ -2,21 +2,43 @@
   "printers": {
     "B_TD2130N": {
       "type": "B_TD2130N",
-      "name": "Brother TD2130N",
+      "name": "Brother TD2130N (Local)",
       "labelWidth": 252,
       "labelHeight": 32,
       "marginTop": 0,
       "marginLeft": 34.8,
-      "dpmm": 12
+      "dpmm": 12,
+      "scale": 1
+    },
+    "B_TD2130N_Cloud": {
+      "type": "B_TD2130N_Cloud",
+      "name": "Brother TD2130N (Cloud)",
+      "labelWidth": 252,
+      "labelHeight": 32,
+      "marginTop": 0,
+      "marginLeft": 45.0,
+      "dpmm": 12,
+      "scale": 0.275
     },
     "Z_ZD510-HC": {
       "type": "Z_ZD510-HC",
-      "name": "Zebra ZD510-HC",
+      "name": "Zebra ZD510-HC (Local)",
       "labelWidth": 279.4,
       "labelHeight": 25.4,
       "marginTop": 0,
       "marginLeft": 35,
-      "dpmm": 12
+      "dpmm": 12,
+      "scale": 1
+    },
+    "Z_ZD510-HC_Cloud": {
+      "type": "Z_ZD510-HC_Cloud",
+      "name": "Zebra ZD510-HC (Cloud)",
+      "labelWidth": 279.4,
+      "labelHeight": 25.4,
+      "marginTop": 0,
+      "marginLeft": 35,
+      "dpmm": 12,
+      "scale": 0.25
     }
   }
 }

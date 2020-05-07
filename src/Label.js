@@ -12,7 +12,7 @@ class Label extends React.Component {
       const ctx = canvas.getContext("2d");
       const p = this.props;
 
-      const printLeftMargin = this.props.printer.dpmm*this.props.printer.marginLeft
+      const printLeftMargin = this.props.printer.dpmm*this.props.printer.marginLeft;
       const printHeight = this.props.printer.dpmm*(this.props.printer.labelHeight-2*this.props.printer.marginTop);
       // const printWidth = this.props.printer.dpmm*(this.props.printer.labelWidth-this.props.printer.marginLeft);
       const printPadding = 50;
@@ -23,6 +23,9 @@ class Label extends React.Component {
       const catTextHeight = 44;
 
       // QR Code
+      ctx.save()
+      ctx.scale(this.props.printer.scale, this.props.printer.scale);
+
       ctx.save();
       ctx.translate(printLeftMargin, 0);
       const qr = qrcode(0,'H');
@@ -64,23 +67,29 @@ class Label extends React.Component {
       ctx.fillText(p.allergies, 200, 4*(textSize+textLineSpace));
 
       ctx.restore();
+      ctx.restore();
     }
 
-    const divStyle={
-      overflow: 'scroll',
-      width:'100%',
-      float: 'left',
-      position:'relative'
-    };
-
     return (
-      <div style={divStyle}>
-        <div style={{width:this.props.printer.dpmm*(this.props.printer.labelWidth), height:this.props.printer.dpmm*(this.props.printer.labelHeight), display: "flex", justifyContent: 'left', alignItems: 'center', border: "solid 1px black"}}>
+      <div style={{
+        overflow: 'scroll',
+        width:'100%',
+        float: 'left',
+        position:'relative'
+      }}>
+        <div style={{
+          width:this.props.printer.dpmm*(this.props.printer.labelWidth),
+          height:this.props.printer.dpmm*(this.props.printer.labelHeight),
+          display: "flex",
+          justifyContent: 'left',
+          alignItems: 'center',
+          border: "solid 1px black"
+        }}>
           <canvas ref={this.props.canvasRef}
-                  //style={{border: "dashed 1px black"}}
+                  style={{border: "dashed 1px black"}}
                   id="labelCanvas"
-                  width={this.props.printer.dpmm*(this.props.printer.labelWidth-this.props.printer.marginLeft)}
-                  height={this.props.printer.dpmm*(this.props.printer.labelHeight-2*this.props.printer.marginTop)}
+                  width={this.props.printer.dpmm*(this.props.printer.labelWidth-this.props.printer.marginLeft)*this.props.printer.scale}
+                  height={this.props.printer.dpmm*(this.props.printer.labelHeight-2*this.props.printer.marginTop)*this.props.printer.scale}
           />
         </div>
       </div>

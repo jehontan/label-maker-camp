@@ -91,6 +91,13 @@ export default function SettingsDialog (props) {
     }
   }
 
+  const handleScaleChange = (event) => {
+    const p={...printer};
+    p.scale = event.target.value;
+    setPrinter(p);
+    setChanged(true);
+  }
+
   const handleSave = () => {
     props.onSave({...printer});
     setChanged(false);
@@ -142,6 +149,19 @@ export default function SettingsDialog (props) {
                 InputProps={{endAdornment: <InputAdornment position="end">dpmm</InputAdornment>}}
                 value={printer.dpmm}
                 onChange={handleResolutionChange}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+            <TextField
+                disabled={disabled}
+                fullWidth
+                type="number"
+                label="Scale"
+                helperText="Local: 1, Cloud: 0.25"
+                InputProps={{endAdornment: <InputAdornment position="end">x</InputAdornment>}}
+                value={printer.scale}
+                onChange={handleScaleChange}
               />
             </Grid>
 

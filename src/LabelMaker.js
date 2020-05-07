@@ -62,8 +62,12 @@ class LabelMaker extends React.Component {
     const canvas = this.canvasRef.current;
     const img = canvas.toDataURL("image/png");
     console.log(img);
-    var a = window.open('', 'Print', 'height=500, width=500'); 
+    var a = window.open('', 'Print', 'height=500, width=500');
+    a.document.write("<html><head>");
+    a.document.write("<style>@page{margin-left: 0px;margin-right: 0px;margin-top: 0px;margin-bottom: 0px;}</style>");
+    a.document.write("</head><body>");
     a.document.write('<img src="'+ img +'"/>');
+    a.document.write("</body></html>");
     a.onload = ()=>a.print();
     a.document.close();
     this.props.onPrint();
