@@ -8,6 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+import {listUsers} from './AWSFunctions'
+
 const dateFns = new DateFnsAdapter();
 
 const parse = require('csv-parse');
@@ -97,6 +99,7 @@ class BulkMaker extends React.Component {
     this.handleGenerate = this.handleGenerate.bind(this);
     this.handlePrint = this.handlePrint.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
+    this.handlePullFromDB = this.handlePullFromDB.bind(this);
     this.previewRef = React.createRef();
 
     this.state = {
@@ -152,6 +155,37 @@ class BulkMaker extends React.Component {
     reader.readAsText(event.target.files[0]);
   }
 
+  handlePullFromDB() {
+    console.log('Pulling data...')
+    this.setState({generate: false});
+    listUsers((err, data) => {
+      if (err === null) {
+        // All is good
+        console.log('Got data.');
+
+        const labels = [];
+        const preview = this.previewRef.current;
+        preview.innerHTML = '';
+
+        data.forEach(item => {
+          const canvas = document.createElement("canvas");
+          const record = {};
+          record["name"] = item.name;
+          record["nric"] = item.finNo;
+          record["admission_date"] = item.timeEnrolled;
+          record["bed_no"] = `${item.bed.sector}-${item.bed.tent}-${item.bed.serial}`;
+
+          createLabel(canvas, record, {...this.props});
+          labels.push(canvas.toDataURL());
+          preview.appendChild(canvas);
+        });
+
+      } else {
+        console.log(err);
+      }
+    });
+  }
+
   render()
   {
     const {classes} = this.props;
@@ -180,6 +214,17 @@ class BulkMaker extends React.Component {
                 />
               </Button>
             </Grid>
+
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                component="label"
+                onClick={this.handlePullFromDB}
+              >
+                Pull from DB
+              </Button>
+            </Grid>
+
             <Grid item xs={12}>
               <Button 
                 variant="contained"

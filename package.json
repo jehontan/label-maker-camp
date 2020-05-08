@@ -11,9 +11,13 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "aws-amplify": "^3.0.10",
+    "aws-appsync": "^3.0.3",
+    "crypto-js": "^4.0.0",
     "csv-parse": "^4.9.0",
     "date-fns": "^2.12.0",
     "gh-pages": "^2.2.0",
+    "graphql-tag": "^2.10.3",
     "qrcode-generator": "^1.4.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -28,6 +32,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
+  "proxy": "https://ogbqa7x5ffflpiskzbjiyol2k4.appsync-api.ap-southeast-1.amazonaws.com",
   "eslintConfig": {
     "extends": "react-app"
   },
