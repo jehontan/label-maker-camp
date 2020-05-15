@@ -38,9 +38,10 @@ class LabelMaker extends React.Component {
       generate: false,
       name: '',
       nric: '',
+      bed_sector: '',
+      bed_tent: '',
       bed_no: '',
-      cat_status: '1',
-      admission_date: Date.now(),
+      dob: Date.now(),
       allergies: '',
     };
   }

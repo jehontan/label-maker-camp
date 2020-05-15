@@ -14,9 +14,10 @@ class Form extends React.Component {
 
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleNricChange = this.handleNricChange.bind(this);
+    this.handleBedSectorChange = this.handleBedSectorChange.bind(this);
+    this.handleBedTentChange = this.handleBedTentChange.bind(this);
     this.handleBedNoChange = this.handleBedNoChange.bind(this);
-    this.handleCatStatusChange = this.handleCatStatusChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleDOBChange = this.handleDOBChange.bind(this);
     this.handleAllergiesChange = this.handleAllergiesChange.bind(this);
   }
 
@@ -30,16 +31,20 @@ class Form extends React.Component {
     this.props.onChange({nric: event.target.value});
   }
 
+  handleBedSectorChange(event) {
+    this.props.onChange({bed_sector: event.target.value});
+  }
+
+  handleBedTentChange(event) {
+    this.props.onChange({bed_tent: event.target.value});
+  }
+
   handleBedNoChange(event) {
     this.props.onChange({bed_no: event.target.value});
   }
 
-  handleCatStatusChange(event) {
-    this.props.onChange({cat_status: event.target.value});
-  }
-
-  handleDateChange(date) {
-    this.props.onChange({admission_date: date});
+  handleDOBChange(date) {
+    this.props.onChange({dob: date});
   }
 
   handleAllergiesChange(event) {
@@ -55,6 +60,7 @@ class Form extends React.Component {
                 label="Name" 
                 variant="standard" 
                 fullWidth 
+                value={this.props.name}
                 onChange={this.handleNameChange}
               />
             </Grid>
@@ -64,50 +70,53 @@ class Form extends React.Component {
                 label="NRIC/FIN"
                 variant="standard"
                 fullWidth
+                value={this.props.nric}
                 onChange={this.handleNricChange}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={2}>
               <TextField 
-                select
-                defaultValue="1"
-                id="input-cat-status"
-                label="Cat. Status"
+                id="input-bed-sector"
+                label="Bed Sector"
                 variant="standard"
                 align="left"
                 fullWidth
-                onChange={this.handleCatStatusChange}
-              >
-                <MenuItem key="1" value="1">Cat 1</MenuItem>
-                <MenuItem key="2A" value="2A">Cat 2A</MenuItem>
-                <MenuItem key="2A+" value="2A+">Cat 2A+</MenuItem>
-                <MenuItem key="2B" value="2B">Cat 2B</MenuItem>
-                <MenuItem key="3" value="3">Cat 3</MenuItem>
-              </TextField>
+                value={this.props.bed_sector}
+                onChange={this.handleBedSectorChange}
+              />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={2}>
+              <TextField 
+                id="input-bed-tent"
+                label="Bed Tent"
+                variant="standard"
+                align="left"
+                fullWidth
+                value={this.props.bed_tent}
+                onChange={this.handleBedTentChange}
+              />
+            </Grid>
+            <Grid item xs={12} md={2}>
               <TextField
                 id="input-bed-no"
                 label="Bed Number"
                 variant="standard"
                 fullWidth
+                value={this.props.bed_no}
                 onChange={this.handleBedNoChange}
               />
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={6}>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   fullWidth
-                  disableToolbar
+                  disableFuture
                   variant="inline"
-                  format="dd MMM yyyy"
-                  id="date-picker-inline"
-                  label="Admission Date"
-                  value={this.props.admission_date}
-                  onChange={this.handleDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
+                  label="Date of Birth"
+                  clearable
+                  value={this.props.dob}
+                  onChange={date => this.handleDOBChange(date)}
+                  format="dd/MM/yyyy"
                 />
               </MuiPickersUtilsProvider>
             </Grid>

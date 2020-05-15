@@ -35,56 +35,50 @@ function createLabel(canvas, record, props) {
   canvas.style["page-break-after"] = "always";
 
   const ctx = canvas.getContext("2d");
+  const p = record;
 
-  const printLeftMargin = props.printer.dpmm*props.printer.marginLeft
+  const printLeftMargin = props.printer.dpmm*props.printer.marginLeft;
   const printHeight = props.printer.dpmm*(props.printer.labelHeight-2*props.printer.marginTop);
+  // const printWidth = props.printer.dpmm*(props.printer.labelWidth-props.printer.marginLeft);
   const printPadding = 50;
-  const qrWidth = 25*10;
   const textSize = 30;
   const textLineSpace = 20;
   const textBlockHeight = 4*textSize + 4*textLineSpace;
-  const catTextHeight = 44;
+  const qrScale = 10;
 
   // QR Code
+  ctx.save()
+  ctx.scale(props.printer.scale, props.printer.scale);
+
   ctx.save();
   ctx.translate(printLeftMargin, 0);
   const qr = qrcode(0,'H');
   qr.addData(record["NRIC/FIN"]);
   qr.make();
+  const qrWidth = qr.getModuleCount()*qrScale;
   ctx.translate(printPadding, (printHeight-qrWidth)/2);
-  qr.renderTo2dContext(ctx, 10);
-  ctx.restore();
-
-  // Cat Status
-  ctx.save();
-  ctx.translate(printLeftMargin, 0)
-  ctx.font = "bold 60px Arial";
-  let text = record["CAT STATUS"];
-  let dim = ctx.measureText(text);
-  ctx.translate(printPadding+qrWidth+60+catTextHeight, printHeight/2);
-  ctx.rotate(-Math.PI/2);
-  ctx.translate(-dim.width/2, 0);
-  ctx.fillText(text, 0, 0);
+  qr.renderTo2dContext(ctx, qrScale);
   ctx.restore();
 
   ctx.save();
-  ctx.translate(printLeftMargin+printPadding+qrWidth+60+catTextHeight+50, (printHeight-textBlockHeight)/2);
+  ctx.translate(printLeftMargin+printPadding+qrWidth+50, (printHeight-textBlockHeight)/2);
 
   // Field labels
   ctx.font = "bold " + textSize + "px Arial";
   ctx.fillText("Name:", 0, 0);
   ctx.fillText("NRIC/FIN:", 0, (textSize+textLineSpace))
-  ctx.fillText("Bed:", 0, 2*(textSize+textLineSpace));
-  ctx.fillText("Admission:", 0, 3*(textSize+textLineSpace));
+  ctx.fillText("Date of Birth:", 0, 3*(textSize+textLineSpace));
+  ctx.fillText("Bed Assignment:", 0, 2*(textSize+textLineSpace));
   ctx.fillText("Drug Allergy:", 0, 4*(textSize+textLineSpace));
 
   // Field data
+  ctx.translate(300, 0);
   ctx.font = "bold "+ textSize +"px Arial";
-  ctx.fillText(record["NAME"], 200, 0);
-  ctx.fillText(record["NRIC/FIN"], 200, (textSize+textLineSpace))
-  ctx.fillText(record["BED"], 200, 2*(textSize+textLineSpace));
-  ctx.fillText(dateFns.format(new Date(record["ADMISSION DATE"]), "dd MMM yyyy"), 200, 3*(textSize+textLineSpace));
-  ctx.fillText(record["DRUG ALLERGY"], 200, 4*(textSize+textLineSpace));
+  ctx.fillText(record["NAME"], 0, 0);
+  ctx.fillText(record["NRIC/FIN"], 0, (textSize+textLineSpace))
+  ctx.fillText(dateFns.format(new Date(record["DATE OF BIRTH"]), "dd MMM yyyy"), 0, 3*(textSize+textLineSpace));
+  ctx.fillText(`${record["SECTOR"]}/${record["TENT"]}/${record["BED NUMBER"]}`, 0, 2*(textSize+textLineSpace));
+  ctx.fillText(record["DRUG ALLERGY"], 0, 4*(textSize+textLineSpace));
 
   ctx.restore();
 }
